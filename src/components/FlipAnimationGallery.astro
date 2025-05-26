@@ -1,0 +1,172 @@
+<div class="gallery-container size-full relative invisible">
+  <div
+    class="grid grid-cols-3 gap-4 [&_img]:size-full [&_.item]:cursor-pointer [&_.item]:rounded-lg [&_.item]:overflow-hidden"
+  >
+    <div class="item">
+      <img
+        src="https://picsum.photos/800/800?random=1"
+        alt="Random gallery image 1"
+      />
+    </div>
+    <div class="item">
+      <img
+        src="https://picsum.photos/800/800?random=2"
+        alt="Random gallery image 2"
+      />
+    </div>
+    <div class="item">
+      <img
+        src="https://picsum.photos/800/800?random=3"
+        alt="Random gallery image 3"
+      />
+    </div>
+    <div class="item">
+      <img
+        src="https://picsum.photos/800/800?random=4"
+        alt="Random gallery image 4"
+      />
+    </div>
+    <div class="item">
+      <img
+        src="https://picsum.photos/800/800?random=5"
+        alt="Random gallery image 5"
+      />
+    </div>
+    <div class="item">
+      <img
+        src="https://picsum.photos/800/800?random=6"
+        alt="Random gallery image 6"
+      />
+    </div>
+    <div class="item">
+      <img
+        src="https://picsum.photos/800/800?random=7"
+        alt="Random gallery image 7"
+      />
+    </div>
+    <div class="item">
+      <img
+        src="https://picsum.photos/800/800?random=8"
+        alt="Random gallery image 8"
+      />
+    </div>
+    <div class="item">
+      <img
+        src="https://picsum.photos/800/800?random=9"
+        alt="Random gallery image 9"
+      />
+    </div>
+  </div>
+</div>
+
+<div
+  class="detail fixed flex width-[90.1vmin] cursor-pointer invisible max-h-full rounded-lg overflow-hidden"
+>
+  <img />
+</div>
+
+<script>
+  import { gsap } from "gsap";
+  import { Flip } from "gsap/Flip";
+  import colors from "tailwindcss/colors";
+
+  gsap.registerPlugin(Flip);
+
+  type HTMLElementWithImage = HTMLElement & {
+    querySelector: (selector: string) => HTMLImageElement;
+  };
+
+  const items = gsap.utils.toArray<HTMLElementWithImage>(".item"),
+    details = document.querySelector(".detail") as HTMLElement,
+    detailImage = document.querySelector(".detail img") as HTMLImageElement;
+
+  let activeItem: HTMLElementWithImage | null = null;
+
+  function showDetails(item: HTMLElementWithImage): void {
+    if (activeItem) {
+      return hideDetails();
+    }
+    const onLoad = () => {
+      if (!detailImage || !details) return;
+
+      Flip.fit(details, item, { scale: true, fitChild: detailImage });
+      const state = Flip.getState(details);
+      gsap.set(details, { clearProps: true });
+      gsap.set(details, {
+        xPercent: -50,
+        top: "50%",
+        left: "50%",
+        yPercent: -50,
+        visibility: "visible",
+        overflow: "hidden",
+      });
+
+      Flip.from(state, {
+        duration: 0.5,
+        ease: "power2.inOut",
+        scale: true,
+        onComplete: () => {
+          gsap.set(details, { overflow: "auto" });
+        },
+      });
+
+      detailImage.removeEventListener("load", onLoad);
+      document.addEventListener("click", hideDetails);
+    };
+
+    if (detailImage) {
+      detailImage.addEventListener("load", onLoad);
+      const imgSrc = item.querySelector("img")?.src;
+      if (imgSrc) {
+        detailImage.src = imgSrc;
+      }
+    }
+
+    gsap.to(items, {
+      opacity: 0.3,
+      stagger: { amount: 0.7, from: items.indexOf(item), grid: "auto" },
+    });
+
+    gsap.to("body", {
+      backgroundColor: colors.stone[900],
+      duration: 1,
+      delay: 0.3,
+    });
+    activeItem = item;
+  }
+
+  function hideDetails(): void {
+    document.removeEventListener("click", hideDetails);
+    if (!details || !activeItem || !detailImage) return;
+
+    gsap.set(details, { overflow: "hidden" });
+    const state = Flip.getState(details);
+    Flip.fit(details, activeItem, { scale: true, fitChild: detailImage });
+
+    const tl = gsap.timeline();
+    tl.to(items, {
+      opacity: 1,
+      stagger: { amount: 0.7, from: items.indexOf(activeItem), grid: "auto" },
+    }).to("body", { backgroundColor: colors.stone[50] }, "<");
+
+    Flip.from(state, {
+      scale: true,
+      duration: 0.5,
+      delay: 0.2,
+      onComplete: () => {
+        gsap.set(details, { visibility: "hidden" });
+      },
+    });
+
+    activeItem = null;
+  }
+
+  items.forEach((item) =>
+    item.addEventListener("click", () => showDetails(item))
+  );
+
+  window.addEventListener("load", () => {
+    gsap.to(".gallery-container", { autoAlpha: 1, duration: 0.2 });
+    gsap.from(".item", { autoAlpha: 0, yPercent: 30, stagger: 0.04 });
+  });
+</script>

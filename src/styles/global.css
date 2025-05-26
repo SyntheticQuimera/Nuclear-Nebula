@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+@layer base {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  * {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@layer utilities {
+  .p-responsive {
+    @apply px-[3svw] lg:px-[7svw] py-[8svw] lg:py-[12svw];
+  }
+}
+
+#split-text .word4 {
+  @apply italic pb-1 -mb-1 border-b-4 border-b-indigo-600;
+}
+
+#split-text .word11,
+#split-text .word24 {
+  @apply text-indigo-600 font-bold;
+}
+
+.button {
+  @apply text-lg bg-indigo-600 text-white uppercase py-2 px-12 rounded-full cursor-pointer active:focus:scale-90 transition-transform;
+}
+
+.flip-group.flip-reorder {
+  @apply flex-row;
+}

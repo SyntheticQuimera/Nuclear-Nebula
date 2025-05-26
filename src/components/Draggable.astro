@@ -1,0 +1,49 @@
+<div class="mb-8"><h2 class="font-bold text-5xl">Draggable</h2></div>
+<div
+  class="space-container flex items-center justify-center gap-12 bg-indigo-950 rounded-lg h-[80vh] w-[80vw]"
+>
+  <div
+    class="size-20 max-w-[15vh] max-h-[15vh] bg-[url('/src/assets/space/rover-lunar.png')] bg-contain bg-no-repeat icon--1"
+  >
+  </div>
+  <div
+    class="size-20 max-w-[15vh] max-h-[15vh] bg-[url('/src/assets/space/sistema-solar.png')] bg-contain bg-no-repeat icon--2"
+  >
+  </div>
+  <div
+    class="size-20 max-w-[15vh] max-h-[15vh] bg-[url('/src/assets/space/satelite.png')] bg-contain bg-no-repeat icon--3"
+  >
+  </div>
+  <div
+    class="size-20 max-w-[15vh] max-h-[15vh] bg-[url('/src/assets/space/transbordador-espacial.png')] bg-contain bg-no-repeat icon--4"
+  >
+  </div>
+</div>
+
+<script>
+  import gsap from "gsap";
+  import { Draggable } from "gsap/Draggable";
+  import InertiaPlugin from "gsap/InertiaPlugin";
+
+  gsap.registerPlugin(Draggable, InertiaPlugin);
+
+  Draggable.create(".icon--1", {
+    type: "x",
+    bounds: ".space-container",
+  });
+
+  Draggable.create(".icon--2", {
+    type: "rotation",
+    inertia: true,
+  });
+
+  Draggable.create(".icon--3", {
+    bounds: ".space-container",
+    inertia: true,
+  });
+
+  Draggable.create(".icon--4", {
+    type: "y",
+    bounds: ".space-container",
+  });
+</script>

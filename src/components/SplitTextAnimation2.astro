@@ -1,0 +1,37 @@
+<h1
+  id="split-text-2"
+  class="text-4xl md:text-5xl lg:text-7xl font-medium text-indigo-600"
+  aria-hidden="true"
+>
+  <slot />
+</h1>
+<span class="sr-only">
+  <slot />
+</span>
+
+<script>
+  import { gsap } from "gsap";
+  import { SplitText } from "gsap/SplitText";
+  gsap.registerPlugin(SplitText);
+
+  SplitText.create("#split-text-2", {
+    type: "chars",
+    smartWrap: true,
+    autoSplit: true,
+    aria: "hidden",
+    onSplit(self) {
+      const tl = gsap.timeline({ repeat: -1, yoyo: true });
+      return tl.from(self.chars, {
+        duration: 1,
+        yPercent: "random(-100,100)",
+        rotation: "random(-30,30)",
+        autoAlpha: 0,
+        stagger: {
+          amount: 0.5,
+          from: "random",
+        },
+        ease: "back.out",
+      });
+    },
+  });
+</script>

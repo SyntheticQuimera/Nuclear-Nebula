@@ -1,0 +1,64 @@
+---
+import LayoutMain from "../layouts/LayoutMain.astro";
+import SplitTextAnimation from "../components/SplitTextAnimation.astro";
+import SplitTextAnimation2 from "../components/SplitTextAnimation2.astro";
+import FlipAnimation from "../components/FlipAnimation.astro";
+import FlipAnimationShuffle from "../components/FlipAnimationShuffle.astro";
+import FlipAnimationGallery from "../components/FlipAnimationGallery.astro";
+import Draggable from "../components/Draggable.astro";
+import DrawSVG from "../components/DrawSVG.astro";
+---
+
+<LayoutMain title="Gsap">
+  <article class="overflow-hidden">
+    <section
+      class="flex flex-col items-center justify-center min-h-screen p-responsive"
+    >
+      <SplitTextAnimation>
+        Cada uno de nosotros es una preciosidad, en una perspectiva cósmica. Si
+        alguien discrepa de tus opiniones, déjalo vivir. En un trillón de
+        galaxias, no hallarías otro igual.
+      </SplitTextAnimation>
+    </section>
+
+    <section
+      class="flex flex-col items-center justify-center min-h-screen p-responsive"
+    >
+      <SplitTextAnimation2>
+        Vivimos en una sociedad exquisitamente dependiente de las ciencias y la
+        tecnología, en la cual prácticamente nadie sabe nada acerca de la
+        ciencia o la tecnología
+      </SplitTextAnimation2>
+    </section>
+
+    <section
+      class="flex flex-col items-center justify-center min-h-screen p-responsive"
+    >
+      <FlipAnimation />
+    </section>
+
+    <section
+      class="flex flex-col items-center justify-center min-h-screen p-responsive"
+    >
+      <FlipAnimationShuffle />
+    </section>
+
+    <section
+      class="flex flex-col items-center justify-center min-h-screen p-responsive relative"
+    >
+      <FlipAnimationGallery />
+    </section>
+
+    <section
+      class="flex flex-col items-center justify-center min-h-screen p-responsive relative"
+    >
+      <Draggable />
+    </section>
+
+    <section
+      class="flex flex-col items-center justify-center min-h-screen p-responsive relative"
+    >
+      <DrawSVG />
+    </section>
+  </article>
+</LayoutMain>

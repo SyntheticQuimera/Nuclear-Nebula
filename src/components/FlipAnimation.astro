@@ -1,0 +1,41 @@
+<div class="flex flex-col w-full items-center justify-center">
+  <button id="change-layout" class="button"> Change </button>
+  <div
+    class="flip-group w-full lg:w-2xl aspect-video mx-auto p-2 flex flex-col relative rounded-lg"
+  >
+    <div class="flip-box m-2 p-4 rounded-lg text-gray-50 bg-indigo-400">
+      “La inteligencia es la capacidad de adaptarse al cambio.”
+    </div>
+    <div class="flip-box m-2 p-4 rounded-lg text-gray-50 bg-indigo-500">
+      “Por muy difícil que parezca la vida, siempre hay algo que puedes hacer y
+      tener éxito.”
+    </div>
+    <div class="flip-box m-2 p-4 rounded-lg text-gray-50 bg-indigo-600">
+      “La vida sería trágica si no fuera divertida.”
+    </div>
+    <div class="flip-box m-2 p-4 rounded-lg text-gray-50 bg-indigo-700">
+      “Mira hacia las estrellas y no hacia tus pies.”
+    </div>
+  </div>
+</div>
+
+<script>
+  import { gsap } from "gsap";
+  import { Flip } from "gsap/Flip";
+
+  gsap.registerPlugin(Flip);
+
+  document.querySelector("#change-layout")?.addEventListener("click", () => {
+    const flipGroup = document.querySelector(".flip-group");
+    if (!flipGroup) return;
+
+    const state = Flip.getState(".flip-group .flip-box");
+    flipGroup.classList.toggle("flip-reorder");
+
+    Flip.from(state, {
+      ease: "power1.inOut",
+      duration: 0.8,
+      absolute: true,
+    });
+  });
+</script>

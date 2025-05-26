@@ -1,0 +1,77 @@
+<div class="flex flex-col w-full items-center justify-center gap-4">
+  <button id="shuffle-button" class="button"> Shuffle </button>
+  <div
+    class="shuffle-container-1 flex w-full lg:w-2xl h-28 mx-auto p-4 gap-2 rounded-lg border-2 border-indigo-500"
+  >
+    <div
+      class="grid place-content-center text-white text-lg font-bold size-full bg-orange-500 shuffle-box-orange rounded-md"
+    >
+      1
+    </div>
+    <div
+      class="grid place-content-center text-white text-lg font-bold size-full bg-indigo-500 shuffle-box-indigo rounded-md"
+    >
+      2
+    </div>
+    <div
+      class="grid place-content-center text-white text-lg font-bold size-full bg-orange-500 shuffle-box-orange rounded-md"
+    >
+      3
+    </div>
+    <div
+      class="grid place-content-center text-white text-lg font-bold size-full bg-indigo-500 shuffle-box-indigo rounded-md"
+    >
+      4
+    </div>
+    <div
+      class="grid place-content-center text-white text-lg font-bold size-full bg-orange-500 shuffle-box-orange rounded-md"
+    >
+      5
+    </div>
+    <div
+      class="grid place-content-center text-white text-lg font-bold size-full bg-indigo-500 shuffle-box-indigo rounded-md"
+    >
+      6
+    </div>
+  </div>
+  <div
+    class="shuffle-container-2 flex w-full lg:w-2xl h-28 mx-auto p-4 gap-2 rounded-lg border-2 border-indigo-500"
+  >
+  </div>
+</div>
+
+<script>
+  import { gsap } from "gsap";
+  import { Flip } from "gsap/Flip";
+
+  gsap.registerPlugin(Flip);
+  const container1 = document.querySelector(".shuffle-container-1");
+  const container2 = document.querySelector(".shuffle-container-2");
+
+  document.querySelector("#shuffle-button")?.addEventListener("click", () => {
+    const boxes = gsap.utils.toArray(
+      ".shuffle-box-indigo, .shuffle-box-orange"
+    ) as HTMLElement[];
+    const state = Flip.getState(boxes);
+
+    const newContainer =
+      boxes[0].parentNode === container1 ? container2 : container1;
+
+    gsap.utils.shuffle(boxes).forEach((box) => {
+      newContainer?.appendChild(box);
+    });
+
+    // Para mantener la posición de los box usar:
+    // const target = boxes[0].parentNode === container1 ? container2 : container1;
+
+    // boxes.forEach((box, i) => {
+    //   target?.insertBefore(box, target.children[i] || null);
+    // });
+
+    Flip.from(state, {
+      targets: boxes,
+      duration: 0.8,
+      ease: "power1.inOut",
+    });
+  });
+</script>
