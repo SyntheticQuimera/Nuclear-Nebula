@@ -1,6 +1,6 @@
 <div class="gallery-container size-full relative invisible">
   <div
-    class="grid grid-cols-3 gap-4 [&_img]:size-full [&_.item]:cursor-pointer [&_.item]:rounded-lg [&_.item]:overflow-hidden"
+    class="grid grid-cols-3 gap-4 [&_img]:size-full [&_.item]:cursor-pointer [&_.item]:rounded-full [&_.item]:overflow-hidden"
   >
     <div class="item">
       <img
@@ -60,7 +60,7 @@
 </div>
 
 <div
-  class="detail fixed flex width-[90.1vmin] cursor-pointer invisible max-h-full rounded-lg overflow-hidden"
+  class="detail fixed flex width-[90.1vmin] cursor-pointer invisible max-h-full rounded-full overflow-hidden"
 >
   <img />
 </div>
@@ -99,12 +99,21 @@
         yPercent: -50,
         visibility: "visible",
         overflow: "hidden",
+        borderRadius: "9999px",
       });
 
       Flip.from(state, {
-        duration: 0.5,
+        duration: 1,
         ease: "power2.inOut",
         scale: true,
+        delay: 0.2,
+        onStart: () => {
+          gsap.to(details, {
+            borderRadius: "20px",
+            duration: 1,
+            ease: "power2.inOut",
+          });
+        },
         onComplete: () => {
           gsap.set(details, { overflow: "auto" });
         },
@@ -128,7 +137,7 @@
     });
 
     gsap.to("body", {
-      backgroundColor: colors.stone[900],
+      backgroundColor: colors.stone[950],
       duration: 1,
       delay: 0.3,
     });
@@ -151,8 +160,15 @@
 
     Flip.from(state, {
       scale: true,
-      duration: 0.5,
+      duration: 1,
       delay: 0.2,
+      onStart: () => {
+        gsap.to(details, {
+          borderRadius: "9999px",
+          duration: 2,
+          ease: "power2.inOut",
+        });
+      },
       onComplete: () => {
         gsap.set(details, { visibility: "hidden" });
       },

@@ -1,0 +1,49 @@
+<div id="textZoomContainer" class="h-[300vh] relative">
+  <div id="textZoomBackground" class="fixed inset-0 w-full h-full"></div>
+  <h1
+    id="textZoom"
+    class="leading-[0.8] text-5xl text-stone-50 md:text-6xl lg:text-9xl font-black invisible fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+  >
+    <slot />
+  </h1>
+</div>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const tl = gsap.timeline();
+
+  tl.fromTo(
+    "#textZoom",
+    { scale: 0 },
+    {
+      delay: 0.5,
+      duration: 1,
+      autoAlpha: 1,
+      scale: 1,
+      ease: "power4.out",
+    }
+  ).fromTo(
+    "#textZoom",
+    { scale: 1 },
+    {
+      scale: 120,
+      x: "-450%",
+      y: "450%",
+      ease: "power1.out",
+      scrollTrigger: {
+        trigger: "#textZoomContainer",
+        start: "top top",
+        end: "bottom+=20% top",
+        scrub: 0.5,
+        onLeave: () =>
+          gsap.set("#textZoom, #textZoomBackground", { autoAlpha: 0 }),
+        onEnterBack: () =>
+          gsap.set("#textZoom, #textZoomBackground", { autoAlpha: 1 }),
+      },
+    }
+  );
+</script>

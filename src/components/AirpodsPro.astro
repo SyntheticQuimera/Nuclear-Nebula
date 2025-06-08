@@ -1,0 +1,110 @@
+<div id="containerAirpods">
+  <div id="pinAirpods">
+    <h2 id="textAirpods" class="font-black leading-[0.8]">
+      Pop your <br /> buds in.
+    </h2>
+    <canvas id="heroAirpods" class="brightness-90"></canvas>
+  </div>
+</div>
+
+<style>
+  #containerAirpods {
+    margin: 0;
+    padding: 0;
+    height: 400vh;
+    width: 100vw;
+    overflow-x: hidden;
+    position: relative;
+  }
+  #pinAirpods {
+    position: relative;
+    height: 100vh;
+    width: 100%;
+    overflow: hidden;
+  }
+  #textAirpods,
+  #heroAirpods {
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+  }
+  #textAirpods {
+    top: 65%;
+    font-size: 5vw;
+    text-align: center;
+  }
+  #heroAirpods {
+    top: 40%;
+    aspect-ratio: 1068/600;
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(ScrollTrigger);
+
+  ScrollTrigger.create({
+    trigger: "#containerAirpods",
+    start: "top top",
+    end: "bottom bottom",
+    pin: "#pinAirpods",
+    scrub: true,
+  });
+
+  gsap.to("#textAirpods", {
+    scale: 4,
+    autoAlpha: 0,
+    scrollTrigger: {
+      trigger: "#containerAirpods",
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 0.5,
+    },
+  });
+
+  const canvas = document.getElementById("heroAirpods") as HTMLCanvasElement;
+  const ctx = canvas.getContext("2d");
+  canvas.width = 1068;
+  canvas.height = 600;
+  const TOTAL_FRAMES = 65;
+  const createURL = (frame: number): string => {
+    const id = String(frame).padStart(4, "0");
+    return `https://www.apple.com/105/media/us/airpods-pro/2022/d2deeb8e-83eb-48ea-9721-f567cf0fffa8/anim/hero/large/${id}.png`;
+  };
+
+  const images = Array.from({ length: TOTAL_FRAMES }, (_, i) => {
+    const img = new Image();
+    img.src = createURL(i);
+    return img;
+  });
+
+  const airpods = { frame: 0 };
+  gsap.to(airpods, {
+    frame: TOTAL_FRAMES - 1,
+    ease: "none",
+    snap: "frame",
+    scrollTrigger: {
+      trigger: "#containerAirpods",
+      start: "top top",
+      end: "bottom bottom",
+      scrub: 0.5,
+    },
+    onUpdate: render,
+  });
+
+  images[0].onload = render;
+
+  function render() {
+    const img = images[airpods.frame];
+    const scale = Math.min(
+      canvas.width / img.width,
+      canvas.height / img.height
+    );
+    const w = img.width * scale;
+    const h = img.height * scale;
+    ctx?.clearRect(0, 0, canvas.width, canvas.height);
+    ctx?.drawImage(img, (canvas.width - w) / 2, (canvas.height - h) / 2, w, h);
+  }
+</script>

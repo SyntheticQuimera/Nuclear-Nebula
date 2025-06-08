@@ -1,6 +1,6 @@
 <h1
   id="split-text"
-  class="text-4xl md:text-5xl lg:text-7xl font-medium invisible"
+  class="text-4xl md:text-5xl lg:text-7xl invisible"
   aria-hidden="true"
 >
   <slot />
@@ -12,7 +12,8 @@
 <script>
   import { gsap } from "gsap";
   import { SplitText } from "gsap/SplitText";
-  gsap.registerPlugin(SplitText);
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+  gsap.registerPlugin(SplitText, ScrollTrigger);
 
   SplitText.create("#split-text", {
     type: "words",
@@ -28,6 +29,11 @@
         autoAlpha: 0,
         stagger: 0.1,
         ease: "expo.out",
+        scrollTrigger: {
+          trigger: "#split-text",
+          start: "top 80%",
+          toggleActions: "play none none reverse",
+        },
       });
     },
   });

@@ -1,41 +1,41 @@
 <div class="flex flex-col w-full items-center justify-center gap-4">
   <button id="shuffle-button" class="button"> Shuffle </button>
   <div
-    class="shuffle-container-1 flex w-full lg:w-2xl h-28 mx-auto p-4 gap-2 rounded-lg border-2 border-indigo-500"
+    class="shuffle-container-1 flex h-28 mx-auto p-4 gap-2 rounded-full border-2 border-stone-950"
   >
     <div
-      class="grid place-content-center text-white text-lg font-bold size-full bg-orange-500 shuffle-box-orange rounded-md"
+      class="grid place-content-center text-stone-50 text-lg font-bold size-full aspect-square bg-stone-950 shuffle-box rounded-full"
     >
       1
     </div>
     <div
-      class="grid place-content-center text-white text-lg font-bold size-full bg-indigo-500 shuffle-box-indigo rounded-md"
+      class="grid place-content-center text-stone-50 text-lg font-bold size-full aspect-square bg-stone-950 shuffle-box rounded-full"
     >
       2
     </div>
     <div
-      class="grid place-content-center text-white text-lg font-bold size-full bg-orange-500 shuffle-box-orange rounded-md"
+      class="grid place-content-center text-stone-50 text-lg font-bold size-full aspect-square bg-stone-950 shuffle-box rounded-full"
     >
       3
     </div>
     <div
-      class="grid place-content-center text-white text-lg font-bold size-full bg-indigo-500 shuffle-box-indigo rounded-md"
+      class="grid place-content-center text-stone-50 text-lg font-bold size-full aspect-square bg-stone-950 shuffle-box rounded-full"
     >
       4
     </div>
     <div
-      class="grid place-content-center text-white text-lg font-bold size-full bg-orange-500 shuffle-box-orange rounded-md"
+      class="grid place-content-center text-stone-50 text-lg font-bold size-full aspect-square bg-stone-950 shuffle-box rounded-full"
     >
       5
     </div>
     <div
-      class="grid place-content-center text-white text-lg font-bold size-full bg-indigo-500 shuffle-box-indigo rounded-md"
+      class="grid place-content-center text-stone-50 text-lg font-bold size-full aspect-square bg-stone-950 shuffle-box rounded-full"
     >
       6
     </div>
   </div>
   <div
-    class="shuffle-container-2 flex w-full lg:w-2xl h-28 mx-auto p-4 gap-2 rounded-lg border-2 border-indigo-500"
+    class="shuffle-container-2 flex h-28 mx-auto p-4 gap-2 rounded-full border-2 border-stone-950"
   >
   </div>
 </div>
@@ -45,13 +45,21 @@
   import { Flip } from "gsap/Flip";
 
   gsap.registerPlugin(Flip);
-  const container1 = document.querySelector(".shuffle-container-1");
-  const container2 = document.querySelector(".shuffle-container-2");
+  const container1 = document.querySelector(
+    ".shuffle-container-1"
+  ) as HTMLElement;
+  const container2 = document.querySelector(
+    ".shuffle-container-2"
+  ) as HTMLElement;
+
+  // Set initial width of container2 equal to container1
+  if (container1 && container2) {
+    container2.style.width = container1.offsetWidth + "px";
+    container1.style.width = container1.offsetWidth + "px";
+  }
 
   document.querySelector("#shuffle-button")?.addEventListener("click", () => {
-    const boxes = gsap.utils.toArray(
-      ".shuffle-box-indigo, .shuffle-box-orange"
-    ) as HTMLElement[];
+    const boxes = gsap.utils.toArray(".shuffle-box") as HTMLElement[];
     const state = Flip.getState(boxes);
 
     const newContainer =
